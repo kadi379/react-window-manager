@@ -1,0 +1,18 @@
+.window-r {
+    width: 500px;
+    height: 500px;
+    border: 3px solid red;
+    background-color: rgba($color: red, $alpha: 0.5);
+}
+.window-g {
+    width: 500px;
+    height: 700px;
+    border: 3px solid green;
+    background-color: rgba($color: green, $alpha: 0.5);
+}
+.window-b {
+    width: 300px;
+    height: 500px;
+    border: 3px solid blue;
+    background-color: rgba($color: blue, $alpha: 0.5);
+}
