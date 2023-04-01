@@ -7,7 +7,11 @@ const Test = () => {
         <div className="test-wrapper">
             <button
                 onClick={() =>
-                    openWindow({ type: WindowType.windowR, frame: WindowFrameType.windowFrameR })
+                    openWindow({
+                        type: WindowType.windowR,
+                        initPos: { top: -50, left: 50 },
+                        frame: WindowFrameType.windowFrameR,
+                    })
                 }
             >
                 window r - frame r
@@ -21,7 +25,7 @@ const Test = () => {
             </button>
             <button
                 onClick={() =>
-                    openWindow({ type: WindowType.windowG })
+                    openWindow({ type: WindowType.windowG, initPos: { top: 500, left: 500 } })
                 }
             >
                 window g - frame default (r)

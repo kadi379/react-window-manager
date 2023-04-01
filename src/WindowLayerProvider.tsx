@@ -4,6 +4,8 @@ import WindowG from "./test-windows/WindowG"
 import WindowB from "./test-windows/WindowB"
 import WindowFrameR from "./window-frames/WindowFrameR"
 import WindowFrameG from "./window-frames/WindowFrameG"
+import { ElementPosition } from "./data/models/interfaces"
+import Draggable from "./draggable/Draggable"
 
 export enum WindowType {
     windowR,
@@ -20,6 +22,7 @@ type WindowParams = {
     type: WindowType
     props?: Record<string, any>
     frame?: WindowFrameType
+    initPos?: ElementPosition
 }
 
 type AppWindow = { id: string } & WindowParams
@@ -37,6 +40,7 @@ type WindowLayerProviderProps = {
 const WindowLayerProvider = ({ children }: WindowLayerProviderProps) => {
     const [openWindows, setOpenWindows] = useState<AppWindow[]>([])
     const [windowsIds, setWindowsIds] = useState<string[]>([])
+    const [highestZIndex, setHighestZIndex] = useState<number>(3)
 
     const generateWindowId = () => {
         const newId = Date.now().toString()
@@ -44,11 +48,22 @@ const WindowLayerProvider = ({ children }: WindowLayerProviderProps) => {
         return newId
     }
 
+    const getNextZIndex = () => {
+        setHighestZIndex(prev => prev + 1)
+        return highestZIndex
+    }
+
     const openWindow = (params: WindowParams) => {
         const windowId = generateWindowId()
         setOpenWindows([
             ...openWindows,
-            { id: windowId, type: params.type, props: params.props, frame: params.frame },
+            {
+                id: windowId,
+                type: params.type,
+                initPos: params.initPos,
+                props: params.props,
+                frame: params.frame,
+            },
         ])
         return windowId
     }
@@ -56,25 +71,33 @@ const WindowLayerProvider = ({ children }: WindowLayerProviderProps) => {
         setOpenWindows((prev) => prev.filter((w) => w.id !== windowId))
     }
     const createWindow = (window: AppWindow) => {
-        let children = <></>
+        let content = <></>
         switch (window.type) {
             case WindowType.windowR:
-                children = <WindowR {...window.props} />
+                content = <WindowR {...window.props} />
                 break
             case WindowType.windowG:
-                children = <WindowG {...window.props} />
+                content = <WindowG {...window.props} />
                 break
             case WindowType.windowB:
-                children = <WindowB {...window.props} />
+                content = <WindowB {...window.props} />
                 break
         }
+        let frame = <></>
         switch (window.frame) {
             default:
             case WindowFrameType.windowFrameR:
-                return <WindowFrameR onClose={() => closeWindow(window.id)} children={children} />
+                frame = (
+                    <WindowFrameR onClose={() => closeWindow(window.id)}>{content}</WindowFrameR>
+                )
+                break
             case WindowFrameType.windowFrameG:
-                return <WindowFrameG onClose={() => closeWindow(window.id)} children={children} />
+                frame = (
+                    <WindowFrameG onClose={() => closeWindow(window.id)}>{content}</WindowFrameG>
+                )
+                break
         }
+        return <Draggable initPos={window.initPos} getNextZIndex={getNextZIndex}>{frame}</Draggable>
     }
 
     return (

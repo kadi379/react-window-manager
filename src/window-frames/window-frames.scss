@@ -5,13 +5,13 @@
     border: 3px solid red;
     .top-bar {
         height: 20px;
-        background-color: rgba($color: red, $alpha: 0.3);
+        background-color: red;
         display: flex;
         justify-content: flex-end;
         align-items: center;
         .close-btn {
             all: unset;
-            color: red;
+            color: white;
             cursor: pointer;
         }
         padding-right: 2px;
@@ -30,13 +30,13 @@
     border: 3px solid green;
     .top-bar {
         height: 20px;
-        background-color: rgba($color: green, $alpha: 0.3);
+        background-color: green;
         display: flex;
         justify-content: flex-end;
         align-items: center;
         .close-btn {
             all: unset;
-            color: green;
+            color: white;
             cursor: pointer;
         }
         padding-right: 2px;
