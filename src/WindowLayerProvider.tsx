@@ -97,7 +97,7 @@ const WindowLayerProvider = ({ children }: WindowLayerProviderProps) => {
                 )
                 break
         }
-        return <Draggable initPos={window.initPos} initZIndex={highestZIndex} getNextZIndex={getNextZIndex}>{frame}</Draggable>
+        return <Draggable initPos={window.initPos} getNextZIndex={getNextZIndex}>{frame}</Draggable>
     }
 
     return (
