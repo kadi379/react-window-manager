@@ -14,7 +14,7 @@ const Draggable = ({ children, initPos, getNextHighestZIndex, disabled = false }
         setZIndex(getNextHighestZIndex())
     }
     useEffect(() => {
-        setZIndex(getNextHighestZIndex())
+        bringToFront()
     }, [])
     return (
         <div

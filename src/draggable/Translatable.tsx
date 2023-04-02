@@ -31,7 +31,6 @@ const Translatable = ({ children, bringToFront, disabled }: TranslatableProps) =
     }, [translatableRef.current])
 
     const handlePanStart = useCallback((e: HammerInput) => {
-        bringToFront()
         setLastDelta({ x: 0, y: 0 })
         setIsDragging(true)
     }, [])
@@ -121,7 +120,7 @@ const Translatable = ({ children, bringToFront, disabled }: TranslatableProps) =
                 visibility: "visible",
                 transform: `translate(${translate.x}px,${translate.y}px)`,
             }}
-            onClick={bringToFront}
+            onMouseDown={bringToFront}
         >
             {children}
         </div>
