@@ -5,16 +5,16 @@ import Translatable from "./Translatable"
 type DraggableProps = {
     children?: React.ReactNode
     initPos?: ElementPosition
-    getNextZIndex: () => number
+    getNextHighestZIndex: () => number
     disabled?: boolean
 }
-const Draggable = ({ children, initPos, getNextZIndex, disabled = false }: DraggableProps) => {
+const Draggable = ({ children, initPos, getNextHighestZIndex, disabled = false }: DraggableProps) => {
     const [zIndex, setZIndex] = useState<number>(3)
     const bringToFront = () => {
-        setZIndex(getNextZIndex())
+        setZIndex(getNextHighestZIndex())
     }
     useEffect(() => {
-        setZIndex(getNextZIndex())
+        setZIndex(getNextHighestZIndex())
     }, [])
     return (
         <div

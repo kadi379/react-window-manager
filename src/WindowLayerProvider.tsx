@@ -48,7 +48,7 @@ const WindowLayerProvider = ({ children }: WindowLayerProviderProps) => {
         return newId
     }
 
-    const getNextZIndex = () => {
+    const getNextHighestZIndex = () => {
         setHighestZIndex(prev => prev + 1)
         return highestZIndex
     }
@@ -97,7 +97,7 @@ const WindowLayerProvider = ({ children }: WindowLayerProviderProps) => {
                 )
                 break
         }
-        return <Draggable initPos={window.initPos} getNextZIndex={getNextZIndex}>{frame}</Draggable>
+        return <Draggable initPos={window.initPos} getNextHighestZIndex={getNextHighestZIndex}>{frame}</Draggable>
     }
 
     return (
