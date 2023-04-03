@@ -1,7 +1,12 @@
-import React from "react"
-import "./test-windows.scss"
-const WindowB = () => {
-    return <div className="window-b">WindowB</div>
-}
+import { observer } from "mobx-react";
+import React from "react";
+import "./test-windows.scss";
 
-export default WindowB
+type WindowBProps = {
+  id: string;
+};
+const WindowB = observer(({ id }: WindowBProps) => {
+  return <div className="window-b">WindowB</div>;
+});
+
+export default WindowB;
