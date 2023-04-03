@@ -72,7 +72,7 @@ const WindowLayerProvider = observer(
           frame: params.frame,
         },
       ]);
-      communicationService.createChannel(windowId);
+      communicationService.createStore(windowId);
       return windowId;
     };
     const closeWindow = (windowId: string) => {

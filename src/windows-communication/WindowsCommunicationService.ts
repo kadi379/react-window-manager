@@ -1,97 +1,97 @@
-import { makeAutoObservable, observable, action, computed } from "mobx";
+import { makeAutoObservable, observable, action } from "mobx";
 
 export class WindowsCommunicationService {
   constructor() {
     makeAutoObservable(this);
   }
   
-  @observable channels = observable.object<any>({}, { deep: true });
+  @observable stores = observable.object<any>({}, { deep: true });
   
-  @action createChannel(channelId: string) {
-    if (this.isChannelExists(channelId)) {
-      console.error(this.channelAlreadyExitsErr(channelId));
+  @action createStore(storeId: string) {
+    if (this.isStoreExists(storeId)) {
+      console.error(this.storeAlreadyExitsErr(storeId));
       return;
     }
-    this.channels[channelId] = {};
+    this.stores[storeId] = {};
   }
 
-  @action deleteChannel(channelId: string) {
-    if (!this.isChannelExists(channelId)) {
-      console.error(this.channelDoesNotExistErr(channelId));
+  @action deleteStore(storeId: string) {
+    if (!this.isStoreExists(storeId)) {
+      console.error(this.storeDoesNotExistErr(storeId));
       return;
     }
-    delete this.channels[channelId];
+    delete this.stores[storeId];
   }
 
-  @action createState(channelId: string, stateName: string, initValue?: any) {
-    if (!this.isChannelExists(channelId)) {
-      console.error(this.channelDoesNotExistErr(channelId));
+  @action createState(storeId: string, stateName: string, initValue?: any) {
+    if (!this.isStoreExists(storeId)) {
+      console.error(this.storeDoesNotExistErr(storeId));
       return;
     }
-    if (this.isStateExistsInChannel(channelId, stateName)) {
-      console.error(this.stateAlreadyExistsErr(channelId, stateName));
+    if (this.isStateExistsInStore(storeId, stateName)) {
+      console.error(this.stateAlreadyExistsErr(storeId, stateName));
       return;
     }
-    this.channels[channelId][stateName] = initValue;
+    this.stores[storeId][stateName] = initValue;
   }
 
-  @action getState(channelId: string, stateName: string) {
-    if (!this.isChannelExists(channelId)) {
-      console.error(this.channelDoesNotExistErr(channelId));
+  @action getState(storeId: string, stateName: string) {
+    if (!this.isStoreExists(storeId)) {
+      console.error(this.storeDoesNotExistErr(storeId));
       return;
     }
-    if (!this.isStateExistsInChannel(channelId, stateName)) {
-      console.error(this.stateDoesNotExistErr(channelId, stateName));
+    if (!this.isStateExistsInStore(storeId, stateName)) {
+      console.error(this.stateDoesNotExistErr(storeId, stateName));
       return;
     }
-    return this.channels[channelId][stateName];
+    return this.stores[storeId][stateName];
   }
 
-  @action setState(channelId: string, stateName: string, newValue: any) {
-    if (!this.isChannelExists(channelId)) {
-      console.error(this.channelDoesNotExistErr(channelId));
+  @action setState(storeId: string, stateName: string, newValue: any) {
+    if (!this.isStoreExists(storeId)) {
+      console.error(this.storeDoesNotExistErr(storeId));
       return;
     }
-    if (!this.isStateExistsInChannel(channelId, stateName)) {
-      console.error(this.stateDoesNotExistErr(channelId, stateName));
+    if (!this.isStateExistsInStore(storeId, stateName)) {
+      console.error(this.stateDoesNotExistErr(storeId, stateName));
       return;
     }
-    this.channels[channelId][stateName] = newValue;
+    this.stores[storeId][stateName] = newValue;
   }
 
-  @action deleteState(channelId: string, stateName: string) {
-    if (!this.isChannelExists(channelId)) {
-      console.error(this.channelDoesNotExistErr(channelId));
+  @action deleteState(storeId: string, stateName: string) {
+    if (!this.isStoreExists(storeId)) {
+      console.error(this.storeDoesNotExistErr(storeId));
       return;
     }
-    if (!this.isStateExistsInChannel(channelId, stateName)) {
-      console.error(this.stateDoesNotExistErr(channelId, stateName));
+    if (!this.isStateExistsInStore(storeId, stateName)) {
+      console.error(this.stateDoesNotExistErr(storeId, stateName));
       return;
     }
-    delete this.channels[channelId][stateName];
+    delete this.stores[storeId][stateName];
   }
 
-  isChannelExists(channelId: string) {
-    if (this.channels.hasOwnProperty(channelId)) return true;
+  isStoreExists(storeId: string) {
+    if (this.stores.hasOwnProperty(storeId)) return true;
     return false;
   }
-  isStateExistsInChannel(channelId: string, stateName: string) {
-    if (!this.channels.hasOwnProperty(channelId)) return false;
-    if (this.channels[channelId].hasOwnProperty(stateName)) return true;
+  isStateExistsInStore(storeId: string, stateName: string) {
+    if (!this.stores.hasOwnProperty(storeId)) return false;
+    if (this.stores[storeId].hasOwnProperty(stateName)) return true;
     return false;
   }
 
-  channelAlreadyExitsErr(channelId: string) {
-    return `channel "${channelId}" already exists.`;
+  storeAlreadyExitsErr(storeId: string) {
+    return `store "${storeId}" already exists.`;
   }
-  channelDoesNotExistErr(channelId: string) {
-    return `channel "${channelId}" does not exist, use createChannel to initialize it.`;
+  storeDoesNotExistErr(storeId: string) {
+    return `store "${storeId}" does not exist, use createStore to initialize it.`;
   }
-  stateAlreadyExistsErr(channelId: string, stateName: string) {
-    return `state "${stateName}" already exists on channel "${channelId}".`;
+  stateAlreadyExistsErr(storeId: string, stateName: string) {
+    return `state "${stateName}" already exists on store "${storeId}".`;
   }
-  stateDoesNotExistErr(channelId: string, stateName: string) {
-    return `state "${stateName}" does not exist on channel "${channelId}", use createState to initialize it.`;
+  stateDoesNotExistErr(storeId: string, stateName: string) {
+    return `state "${stateName}" does not exist on store "${storeId}", use createState to initialize it.`;
   }
 }
 

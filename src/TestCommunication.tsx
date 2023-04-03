@@ -29,7 +29,7 @@ const TestCommunication = observer(() => {
           }
         />
       )}
-      {communicationService.isStateExistsInChannel(windowId, "inputFromWindow") && communicationService.getState(windowId ?? "", "inputFromWindow")}
+      {communicationService.isStateExistsInStore(windowId, "inputFromWindow") && communicationService.getState(windowId ?? "", "inputFromWindow")}
     </div>
   );
 });
